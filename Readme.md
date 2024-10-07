@@ -1,0 +1,2 @@
+# Hangman Game 
+A hangman game console base application the game is allowing the user to guess the secret word and it generate the word in every initializing for the user to guess and user has a limit attempt when he exceed it will automatically break out of the game then print the user session wheather its win or lost
