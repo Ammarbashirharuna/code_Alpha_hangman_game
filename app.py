@@ -1,22 +1,89 @@
-import tkinter as tk
+import random
+from words import words
 
-class HangmanGame:
-    def __init__(self,master):
-        self.master = master
-        self.master.title("HangmanGame")
-        self.master.geometry = ("900x600")
-def initilalize_gui(self):
-     self.hangman_canvas = tk.canvas(self.master, width=300, height=300, bg="white")
-     self.hangman_canvas.pack(pady=20)
-     self.word_display = tk.Label(self.master, text="_ " * len(self.secret_word), font=("Helvetica", 30))
-     self.word_display.pack(pady=(40, 20))
-     self.buttons_frame = tk.Frame(self.master)
-     self.buttons_frame.pack(pady=20)
-     self.setup_alphabet_buttons()
+
+hang_man = {0:(" ",
+          " ",
+          " "),
+        1:(" o ",
+            " ",
+            " "),
+        2:("  o ",
+           "  | "
+            " "),
+        3:(  " o ",
+             "/| ",
+              " "),
+         4:( "  o   ",
+             " /|\\ ",
+              "  "),
+          5:("  o   ",
+             " /|\\ ",
+             " /    "),
+          6:(  "  o ",
+               " /|\\ ",
+               " / \\")
+
+ }
+
+def display_man(wrong_guesses):
+    print("**********************")
+    for line in hang_man[wrong_guesses]:
+        print(line)
+    print("**********************")
+
+
+
+def display_hint(hint):
+    print(" ".join(hint))
+
+def display_answer(answer):
+    print(" ".join(answer))
+
 
 def main():
-    root = tk.Tk()
-    game = HangmanGame(root)
-    root.mainloop()
+    answer = random.choice(words)
+    hint = ["_"] * len(answer)
+    wrong_guesses = 0
+    guessed = set()
+    is_running = True
+
+    while is_running:
+        display_man(wrong_guesses)
+        display_hint(hint)
+        Guess = input("Enter a later ")
+
+        if len(Guess) != 1 or not Guess.isalpha():
+            print("invalid input")
+            continue
+
+        if Guess in guessed:
+            print(f"{Guess} is already Guess")
+            continue
+
+        if Guess in answer:
+            for i in range(len(answer)):
+                if answer[i] == Guess:
+                    hint[i] = Guess
+
+        else:
+            wrong_guesses += 1
+        
+        if "_" not in hint:
+            hang_man(wrong_guesses)
+            display_answer(answer)
+            print("YOU WIN")
+            is_running = False
+
+        elif wrong_guesses >= len(hang_man) - 1 :
+            display_man(wrong_guesses)
+            display_answer(answer)
+            print("YOU LOSE")
+            is_running = False
+
+
+
+
+
 if __name__ == "__main__":
     main()
